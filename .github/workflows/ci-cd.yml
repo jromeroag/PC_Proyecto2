@@ -54,7 +54,7 @@ jobs:
       - uses: github/codeql-action/analyze@v3
 
   deploy:
-    name: Prepare Render Static Site
+    name: Validate Render Docker image
     runs-on: ubuntu-latest
     needs: [build, test, security]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -66,6 +66,13 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      - run: docker build -t gamarra-digital:render .
+      - name: Check container routes
+        run: |
+          docker run -d --name gamarra-render -e PORT=10000 -p 10000:10000 gamarra-digital:render
+          for route in / /css/style.css /js/main.js /models/productoModel.js /views/productoView.js /controllers/productoController.js /assets/img/portada.jpg; do
+            curl --fail --silent --show-error --retry 10 --retry-connrefused --retry-delay 1 "http://localhost:10000$route" --output /dev/null
+          done
       - uses: actions/upload-artifact@v4
         with:
           name: gamarra-digital-static

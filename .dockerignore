@@ -1,0 +1,14 @@
+.git
+.github
+.agents
+.codex
+.aws
+node_modules
+tests
+scripts
+coverage
+package.json
+package-lock.json
+npm-debug.log*
+.env*
+README*
