@@ -1,0 +1,11 @@
+{
+  "name": "gamarra-digital-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/verificar.mjs",
+    "test": "node --test",
+    "start": "node scripts/servir.mjs"
+  }
+}
